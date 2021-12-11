@@ -11,6 +11,7 @@ public class Day11DumboOctopus {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Total flash count = " + getPart1Result(FILE_PATH));
+        System.out.println("First step of simultaneous flash = " + getPart2Result(FILE_PATH));
     }
 
     public static int getPart1Result(String filePath) throws IOException {
@@ -23,9 +24,23 @@ public class Day11DumboOctopus {
             increaseEnergyLevelByOne(matrix);
             totalFlashCount += getFlashCount(matrix);
         }
-//        System.out.println("=== After step 100: ===");
+//        System.out.println("=== After step "+ STEP_COUNT + " : ===");
 //        Utils.printMatrix(matrix);
         return totalFlashCount;
+    }
+
+    public static int getPart2Result(String filePath) throws IOException {
+        List<String> input = Utils.getInputDataAsStringList(filePath);
+        int[][] matrix = Utils.convertInputToMatrix(input);
+        int stepCount = 0;
+        while (true) {
+            stepCount++;
+            increaseEnergyLevelByOne(matrix);
+            getFlashCount(matrix);
+            if (isSimultaneousFlash(matrix)) {
+                return stepCount;
+            }
+        }
     }
 
     private static void increaseEnergyLevelByOne(int[][] matrix) {
@@ -71,5 +86,17 @@ public class Day11DumboOctopus {
             return processAdjacentFlashes(matrix, row, col);
         }
         return 0;
+    }
+
+
+    private static boolean isSimultaneousFlash(int[][] matrix) {
+        for (int[] row : matrix) {
+            for (int point : row) {
+                if (point != 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

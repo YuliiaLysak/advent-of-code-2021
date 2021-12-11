@@ -18,4 +18,11 @@ class Day11DumboOctopusTest {
         assertEquals(1741, result2);
     }
 
+    @Test
+    void getPart2Result() throws IOException {
+        int result1 = Day11DumboOctopus.getPart2Result(FILE_PATH_1);
+        int result2 = Day11DumboOctopus.getPart2Result(FILE_PATH_2);
+        assertEquals(195, result1);
+        assertEquals(440, result2);
+    }
 }
