@@ -27,6 +27,28 @@ public final class Utils {
                 .collect(Collectors.toList());
     }
 
+    public static int[][] convertInputToMatrix(List<String> input) {
+        int columns = input.get(0).length();
+        int rows = input.size();
+        int[][] matrix = new int[rows][columns];
+        for (int i = 0; i < input.size(); i++) {
+            String[] row = input.get(i).trim().split("");
+            for (int j = 0; j < row.length; j++) {
+                matrix[i][j] = Integer.parseInt(row[j]);
+            }
+        }
+        return matrix;
+    }
+
+    public static void printMatrix(int[][] matrix) {
+        for (var vector : matrix) {
+            for (var i : vector) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+    }
+
     private Utils() {
     }
 }

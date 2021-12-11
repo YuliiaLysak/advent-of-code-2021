@@ -15,7 +15,7 @@ public class Day9SmokeBasin {
 
     public static int getPart2Result(String filePath) throws IOException {
         List<String> input = Utils.getInputDataAsStringList(filePath);
-        int[][] matrix = convertInputToMatrix(input);
+        int[][] matrix = Utils.convertInputToMatrix(input);
         return getBasins(matrix)
                 .stream()
                 .map(Set::size)
@@ -69,7 +69,7 @@ public class Day9SmokeBasin {
 
     public static int getPart1Result(String filePath) throws IOException {
         List<String> input = Utils.getInputDataAsStringList(filePath);
-        int[][] matrix = convertInputToMatrix(input);
+        int[][] matrix = Utils.convertInputToMatrix(input);
         List<Integer> lowPoints = getLowPoints(matrix);
 //        System.out.println("Low points: " + lowPoints);
         return getRiskLevel(lowPoints);
@@ -113,27 +113,5 @@ public class Day9SmokeBasin {
         return lowPoints.stream()
                 .mapToInt(it -> it + 1)
                 .sum();
-    }
-
-    public static int[][] convertInputToMatrix(List<String> input) {
-        int columns = input.get(0).length();
-        int rows = input.size();
-        int[][] matrix = new int[rows][columns];
-        for (int i = 0; i < input.size(); i++) {
-            String[] row = input.get(i).trim().split("");
-            for (int j = 0; j < row.length; j++) {
-                matrix[i][j] = Integer.parseInt(row[j]);
-            }
-        }
-        return matrix;
-    }
-
-    private static void printMatrix(int[][] matrix) {
-        for (var vector : matrix) {
-            for (var i : vector) {
-                System.out.print(i);
-            }
-            System.out.println();
-        }
     }
 }
