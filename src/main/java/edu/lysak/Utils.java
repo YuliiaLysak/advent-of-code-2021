@@ -1,6 +1,9 @@
 package edu.lysak;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -40,13 +43,25 @@ public final class Utils {
         return matrix;
     }
 
-    public static void printMatrix(int[][] matrix) {
+    public static void printMatrix(char[][] matrix) {
         for (var vector : matrix) {
             for (var i : vector) {
                 System.out.print(i);
             }
             System.out.println();
         }
+    }
+
+    public static void printMatrix(char[][] matrix, String outputFile) throws FileNotFoundException {
+        PrintStream out = System.out;
+        System.setOut(new PrintStream(new FileOutputStream(outputFile)));
+        for (var vector : matrix) {
+            for (var i : vector) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+        System.setOut(out);
     }
 
     private Utils() {
