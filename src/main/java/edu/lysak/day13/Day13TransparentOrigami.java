@@ -12,6 +12,11 @@ public class Day13TransparentOrigami {
 
     public static void main(String[] args) throws IOException {
         System.out.println("'#' count after first fold = " + getPart1Result(FILE_PATH));
+        System.out.println("After all folds:");
+        Utils.printMatrix(getPart2Result(FILE_PATH));
+        // Finish folding the transparent paper according to the instructions.
+        // The manual says the code is always eight capital letters.
+        // My solution - HLBUBGFR
     }
 
     public static int getPart1Result(String filePath) throws IOException {
@@ -22,7 +27,6 @@ public class Day13TransparentOrigami {
 
         char[][] matrix = new char[size[1]][size[0]];
         fillMatrix(matrix, coordinates);
-//        Utils.printMatrix(matrix, "src/main/resources/day13/input-day13-output.txt");
         String[] firstInstructions = instructions.get(0);
         char[][] foldedMatrix;
         if ("y".equals(firstInstructions[0])) {
@@ -31,6 +35,26 @@ public class Day13TransparentOrigami {
             foldedMatrix = foldLeft(matrix, Integer.parseInt(firstInstructions[1]));
         }
         return countHashes(foldedMatrix);
+    }
+
+    public static char[][] getPart2Result(String filePath) throws IOException {
+        List<String> input = Utils.getInputDataAsStringList(filePath);
+        List<String> coordinates = getCoordinates(input);
+        List<String[]> instructions = getFoldInstructions(input);
+        int[] size = getPaperSize(coordinates);
+
+        char[][] matrix = new char[size[1]][size[0]];
+        fillMatrix(matrix, coordinates);
+        char[][] foldedMatrix = matrix;
+        for (String[] instruction : instructions) {
+            if ("y".equals(instruction[0])) {
+                foldedMatrix = foldUp(foldedMatrix, Integer.parseInt(instruction[1]));
+            } else {
+                foldedMatrix = foldLeft(foldedMatrix, Integer.parseInt(instruction[1]));
+            }
+        }
+        Utils.printMatrix(foldedMatrix, "src/main/resources/day13/input-day13-output.txt");
+        return foldedMatrix;
     }
 
     private static List<String> getCoordinates(List<String> input) {
@@ -68,12 +92,13 @@ public class Day13TransparentOrigami {
     private static char[][] foldUp(char[][] matrix, int y) {
         char[][] foldedMatrix = Arrays.copyOfRange(matrix, 0, y);
 
-        int rowCount = matrix.length;
-        for (int row = 0; row < foldedMatrix.length; row++) {
-            for (int col = 0; col < foldedMatrix[row].length; col++) {
-                char current = matrix[rowCount - row - 1][col];
-                if ('#' == current) {
-                    foldedMatrix[row][col] = current;
+        for (int row = matrix.length - 1; row > y; row--) {
+            for (int col = 0; col < foldedMatrix[0].length; col++) {
+                if (2 * y - row >= 0) {
+                    char current = matrix[row][col];
+                    if ('#' == current) {
+                        foldedMatrix[2 * y - row][col] = current;
+                    }
                 }
             }
         }
@@ -86,13 +111,12 @@ public class Day13TransparentOrigami {
             foldedMatrix[i] = Arrays.copyOfRange(matrix[i], 0, x);
         }
 
-        int colCount = x * 2 + 1;
         for (int row = 0; row < foldedMatrix.length; row++) {
-            for (int col = 0; col < foldedMatrix[row].length; col++) {
-                if (colCount - col - 1 < matrix[row].length) {
-                    char current = matrix[row][colCount - col - 1];
+            for (int col = matrix[0].length - 1; col > x; col--) {
+                if (x * 2 - col >= 0) {
+                    char current = matrix[row][col];
                     if ('#' == current) {
-                        foldedMatrix[row][col] = current;
+                        foldedMatrix[row][x * 2 - col] = current;
                     }
                 }
             }
