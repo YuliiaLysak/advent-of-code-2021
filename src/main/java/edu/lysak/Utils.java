@@ -52,6 +52,15 @@ public final class Utils {
         }
     }
 
+    public static void printIntMatrix(int[][] matrix) {
+        for (var vector : matrix) {
+            for (var i : vector) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+    }
+
     public static void printMatrix(char[][] matrix, String outputFile) throws FileNotFoundException {
         PrintStream out = System.out;
         System.setOut(new PrintStream(new FileOutputStream(outputFile)));

@@ -17,4 +17,13 @@ class Day15ChitonTest {
         assertEquals(40, result1);
         assertEquals(790, result2);
     }
+
+    @Test
+    void getPart2Result() throws IOException {
+        int result1 = Day15Chiton.getPart2Result(FILE_PATH_1);
+        int result2 = Day15Chiton.getPart2Result(FILE_PATH_2);
+        assertEquals(315, result1);
+        // TODO: 16.12.2021 should be 2998, I have 3001. Find out why?
+        assertEquals(2998, result2);
+    }
 }
